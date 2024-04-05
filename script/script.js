@@ -107,6 +107,10 @@ const moveBall = () => {
     if (ball.y <= 0 || ball.y >= canvas.height - ball.raio * 2) {
         dy *= -1
     }
+
+    if (ball.x <= width && ball.y >= racket[0].y && ball.y <= racket[0].y + height || ball.x >= canvas.width - width && ball.y >= racket[1].y && ball.y <= racket[1].y + height) {
+        dx *= -1
+    }
 }
 
 const gameLoop = () => {
