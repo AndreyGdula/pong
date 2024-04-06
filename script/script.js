@@ -1,6 +1,6 @@
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
-const h1 = document.querySelector("h1")
+const span = document.querySelector("span#clock")
 
 const width = 30
 const height = canvas.height / 4
@@ -9,7 +9,7 @@ const blurCtx = 50
 const speedRacket = 15
 const keysPressed = {}
 
-let loopId
+let loopId, startTime, clockGame, updateClock, speedBall
 
 const racket = [
     {x: 0, y: (canvas.height / 2) - (height / 2), color: "white"},
@@ -99,21 +99,64 @@ const moveBall = () => {
     ball.x += dx
     ball.y += dy
     
-    if (ball.x <= 0 || ball.x >= canvas.width - ball.raio * 2) {
-        ball.x = canvas.width / 2
-        ball.y = canvas.height / 2
-        console.log('perdeu')
+    if (ball.x <= 0 + ball.raio || ball.x >= canvas.width - ball.raio * 2) {
+        gameover()
     }
-    if (ball.y <= 0 || ball.y >= canvas.height - ball.raio * 2) {
+    if (ball.y <= 0 + ball.raio || ball.y >= canvas.height - ball.raio * 2) {
         dy *= -1
     }
 
-    if (ball.x <= width && ball.y >= racket[0].y && ball.y <= racket[0].y + height || ball.x >= canvas.width - width && ball.y >= racket[1].y && ball.y <= racket[1].y + height) {
+    if (ball.x <= width + ball.raio && ball.y + ball.raio >= racket[0].y && ball.y + ball.raio <= racket[0].y + height || ball.x + ball.raio >= canvas.width - width && ball.y + ball.raio >= racket[1].y && ball.y + ball.raio<= racket[1].y + height) {
         dx *= -1
     }
 }
 
+const updateBall = (currentTime) => {
+    if (!speedBall) {
+        speedBall = 0
+    }
+
+    if (!updateClock) {
+        updateClock = Date.now()
+    }
+    const updateTime = currentTime - updateClock
+    if (updateTime >= 10 * 1000) {
+        updateClock = undefined
+        speedBall += 0.25
+        if (dx < 0) {
+            dx -= speedBall
+        } else {
+            dx += speedBall
+        }
+        if (dy < 0) {
+            dy -= speedBall
+        } else {
+            dy += speedBall
+        }
+        console.log(speedBall)
+    }
+}
+
+const gameover = () => {
+    ball.x = canvas.width / 2
+    ball.y = canvas.height / 2
+
+    dx = randomNumber(1, 3)
+    dy = randomNumber(1, 3)
+
+    startTime = Date.now()
+    speedBall = 0
+}
+
 const gameLoop = () => {
+    if (!startTime) {
+        startTime = Date.now()
+    }
+
+    const currentTime = Date.now()
+    const clockGame = currentTime - startTime
+    span.innerHTML = `${(clockGame / 1000).toFixed(2)}`
+
     clearInterval(loopId)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -123,6 +166,7 @@ const gameLoop = () => {
     moveRacket()
     wallCollision()
     moveBall()
+    updateBall(currentTime)
 
     loopId = setInterval(() => {
         gameLoop()

@@ -36,3 +36,8 @@ canvas {
     width: 90vw;
     max-width: 700px;
 }
+
+span.material-symbols-outlined {
+    font-size: larger;
+    transform: translate(5px, 5px);
+}
