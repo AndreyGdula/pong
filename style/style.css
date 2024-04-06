@@ -41,3 +41,34 @@ span.material-symbols-outlined {
     font-size: larger;
     transform: translate(5px, 5px);
 }
+
+div.menu {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    background-color: rgba(0, 0, 0, 0.808);
+    font-size: 2em;
+    height: 100%;
+    width: 100%;
+
+    z-index: 1;
+}
+
+button#btn-replay {
+    padding: 10px;
+    font-size: 1.25em;
+    border: none;
+    border-radius: 20px;
+    width: 250px;
+    color: white;
+    background-color: rgb(75, 74, 74);
+}
+
+button#btn-replay:hover {
+    background-color: rgba(75, 74, 74, 0.644);
+    cursor: pointer;
+}

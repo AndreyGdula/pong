@@ -1,15 +1,19 @@
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 const span = document.querySelector("span#clock")
+const menu = document.querySelector("div.menu")
+const buttonReplay = document.querySelector("button#btn-replay")
 
 const width = 30
 const height = canvas.height / 4
 const speedGame = 1
 const blurCtx = 50
 const speedRacket = 15
+const dMin = 2
+const dMax = 4
 const keysPressed = {}
 
-let loopId, startTime, clockGame, updateClock, speedBall
+let loopId, startTime, clockGame, updateClock, speedBall, run
 
 const racket = [
     {x: 0, y: (canvas.height / 2) - (height / 2), color: "white"},
@@ -91,8 +95,8 @@ const wallCollision = () => {
     }
 }
 
-let dx = randomNumber(1, 3)
-let dy = randomNumber(1, 3)
+let dx = randomNumber(dMin, dMax)
+let dy = randomNumber(dMin, dMax)
 console.log(`dx: ${dx} | dy: ${dy}`)
 
 const moveBall = () => {
@@ -133,19 +137,21 @@ const updateBall = (currentTime) => {
         } else {
             dy += speedBall
         }
-        console.log(speedBall)
+        console.log('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-')
+        console.log(`dx: ${dx} | dy: ${dy} -> ${speedBall}`)
     }
 }
 
 const gameover = () => {
-    ball.x = canvas.width / 2
-    ball.y = canvas.height / 2
-
-    dx = randomNumber(1, 3)
-    dy = randomNumber(1, 3)
-
     startTime = Date.now()
+    updateClock = undefined
     speedBall = 0
+
+    menu.style.display = "flex"
+    canvas.style.filter = "blur(10px)"
+
+    span.innerHTML = `00:00`
+    run = false
 }
 
 const gameLoop = () => {
@@ -168,9 +174,24 @@ const gameLoop = () => {
     moveBall()
     updateBall(currentTime)
 
-    loopId = setInterval(() => {
-        gameLoop()
-    }, speedGame)
+    if (run) {
+        loopId = setInterval(() => {
+            gameLoop()
+        }, speedGame)
+    }
 }
 
+buttonReplay.addEventListener('click', () => {
+    menu.style.display = "none"
+    canvas.style.filter = "blur(0px)"
+    run = true
+
+    ball.x = canvas.width / 2
+    ball.y = canvas.height / 2
+    dx = randomNumber(dMin, dMax)
+    dy = randomNumber(dMin, dMax)
+    gameLoop()
+})
+
+run = true
 gameLoop()
