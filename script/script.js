@@ -1,8 +1,10 @@
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 const span = document.querySelector("span#clock")
+const gameTime = document.querySelector("span#gameTime")
 const menu = document.querySelector("div.menu")
 const buttonReplay = document.querySelector("button#btn-replay")
+const gameRecord = document.querySelector("span#gameRecord")
 
 const width = 30
 const height = canvas.height / 4
@@ -12,6 +14,7 @@ const speedRacket = 15
 const dMin = 2
 const dMax = 4
 const keysPressed = {}
+const timeRecord = []
 
 let loopId, startTime, clockGame, updateClock, speedBall, run
 
@@ -99,12 +102,12 @@ let dx = randomNumber(dMin, dMax)
 let dy = randomNumber(dMin, dMax)
 console.log(`dx: ${dx} | dy: ${dy}`)
 
-const moveBall = () => {
+const moveBall = (clockGame) => {
     ball.x += dx
     ball.y += dy
     
     if (ball.x <= 0 + ball.raio || ball.x >= canvas.width - ball.raio * 2) {
-        gameover()
+        gameover(clockGame)
     }
     if (ball.y <= 0 + ball.raio || ball.y >= canvas.height - ball.raio * 2) {
         dy *= -1
@@ -142,15 +145,19 @@ const updateBall = (currentTime) => {
     }
 }
 
-const gameover = () => {
+const gameover = (clockGame) => {
     startTime = Date.now()
     updateClock = undefined
     speedBall = 0
+    timeRecord.push((clockGame / 1000).toFixed(2))
+    console.log(timeRecord)
 
     menu.style.display = "flex"
     canvas.style.filter = "blur(10px)"
 
     span.innerHTML = `00:00`
+    gameTime.innerHTML = `${timeRecord[timeRecord.length - 1]}`
+    gameRecord.innerHTML = `${Math.max(...timeRecord)}`
     run = false
 }
 
@@ -171,7 +178,7 @@ const gameLoop = () => {
     drawBall()
     moveRacket()
     wallCollision()
-    moveBall()
+    moveBall(clockGame)
     updateBall(currentTime)
 
     if (run) {
@@ -190,6 +197,7 @@ buttonReplay.addEventListener('click', () => {
     ball.y = canvas.height / 2
     dx = randomNumber(dMin, dMax)
     dy = randomNumber(dMin, dMax)
+    startTime = Date.now()
     gameLoop()
 })
 
