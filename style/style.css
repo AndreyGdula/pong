@@ -22,6 +22,8 @@ body {
     align-items: center;
     flex-direction: column;
     gap: 10px;
+
+    overflow: hidden;
 }
 
 h1 {
@@ -32,9 +34,10 @@ canvas {
     background-color: black;
     border: 1px solid white;
     border-radius: 5px;
-    height: 90vh;
     width: 90vw;
+    height: 90vw;
     max-width: 700px;
+    max-height: 88vh;
 }
 
 span.material-symbols-outlined {
@@ -52,7 +55,7 @@ div.menu {
 
     background-color: rgba(0, 0, 0, 0.808);
     font-size: 2em;
-    height: 100%;
+    height: 100vh;
     width: 100%;
 
     z-index: 2;
@@ -66,6 +69,7 @@ button#btn-replay {
     width: 250px;
     color: white;
     background-color: rgb(75, 74, 74);
+    user-select: none;
 }
 
 button#btn-replay:hover {
@@ -74,17 +78,32 @@ button#btn-replay:hover {
 }
 
 div.control {
-    position: absolute;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    place-items: center;
     width: 98vw;
-    height: 98vh;
+    height: 300px;
+    user-select: none;
 }
 
 button.control {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 0, 0, 0.116);
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    font-family: sans-serif;
     z-index: 1;
+}
+
+span#arrow-up {
+    transform: translate(0px, -1px);
+}
+
+span#arrow-down {
+    transform: translate(0px, 10px);
 }

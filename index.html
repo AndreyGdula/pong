@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,13 +24,21 @@
         </p>
         <button id="btn-replay">REPLAY</button>
     </div>
-    <div class="control">
-        <button id="leftTop" class="control"></button>
-        <button id="rightTop" class="control"></button>
-        <button id="leftBottom" class="control"></button>
-        <button id="rightBottom" class="control"></button>
-    </div>
     <canvas width="1000" height="1000"></canvas>
+    <div class="control">
+        <button id="leftTop" class="control">
+            <span class="material-symbols-outlined" id="arrow-up">expand_less</span>
+        </button>
+        <button id="rightTop" class="control">
+            <span class="material-symbols-outlined" id="arrow-up">expand_less</span>
+        </button>
+        <button id="leftBottom" class="control">
+            <span class="material-symbols-outlined" id="arrow-down">expand_more</span>
+        </button>
+        <button id="rightBottom" class="control">
+            <span class="material-symbols-outlined" id="arrow-down">expand_more</span>
+        </button>
+    </div>
     <script src="script/script.js"></script>
 </body>
 </html>

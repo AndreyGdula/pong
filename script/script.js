@@ -9,6 +9,7 @@ const leftTop = document.querySelector("button#leftTop")
 const rightTop = document.querySelector("button#rightTop")
 const leftBottom = document.querySelector("button#leftBottom")
 const rightBottom = document.querySelector("button#rightBottom")
+const divControl = document.querySelector("div.control")
 
 const width = 30
 const height = canvas.height / 4
@@ -21,6 +22,11 @@ const keysPressed = {}
 const timeRecord = []
 
 let loopId, startTime, clockGame, updateClock, speedBall, run
+
+let pressButtonLT = false
+let pressButtonLB = false
+let pressButtonRT = false
+let pressButtonRB = false
 
 const racketSound = new Audio("../files/racket-sound.mp3")
 const gameoverSound = new Audio("../files/gameover-sound.wav")
@@ -192,6 +198,7 @@ const gameLoop = () => {
     moveBall(clockGame)
     updateBall(currentTime)
     controlMobile()
+    mobile()
 
     if (run) {
         loopId = setInterval(() => {
@@ -213,53 +220,55 @@ buttonReplay.addEventListener('click', () => {
     gameLoop()
 })
 
-let pressButtonLT = false
-let pressButtonLB = false
-let pressButtonRT = false
-let pressButtonRB = false
-leftTop.addEventListener('mousedown', () => {
-    if (pressButtonLT == false) {
-        pressButtonLT = true
+const mobile = () => {
+    if (window.innerWidth >= 600) {
+        divControl.style.display = "none"
     }
-})
-leftTop.addEventListener('mouseup', () => {
-    if (pressButtonLT) {
-        pressButtonLT = false
-    }
-})
 
-leftBottom.addEventListener('mousedown', () => {
-    if (pressButtonLB == false) {
-        pressButtonLB = true
-    }
-})
-leftBottom.addEventListener('mouseup', () => {
-    if (pressButtonLB) {
-        pressButtonLB = false
-    }
-})
+    leftTop.addEventListener('touchstart', () => {
+        if (pressButtonLT == false) {
+            pressButtonLT = true
+        }
+    })
+    leftTop.addEventListener('touchend', () => {
+        if (pressButtonLT) {
+            pressButtonLT = false
+        }
+    })
 
-rightTop.addEventListener('mousedown', () => {
-    if (pressButtonRT == false) {
-        pressButtonRT = true
-    }
-})
-rightTop.addEventListener('mouseup', () => {
-    if (pressButtonRT) {
-        pressButtonRT = false
-    }
-})
+    leftBottom.addEventListener('touchstart', () => {
+        if (pressButtonLB == false) {
+            pressButtonLB = true
+        }
+    })
+    leftBottom.addEventListener('touchend', () => {
+        if (pressButtonLB) {
+            pressButtonLB = false
+        }
+    })
 
-rightBottom.addEventListener('mousedown', () => {
-    if (pressButtonRB == false) {
-        pressButtonRB = true
-    }
-})
-rightBottom.addEventListener('mouseup', () => {
-    if (pressButtonRB) {
-        pressButtonRB = false
-    }
-})
+    rightTop.addEventListener('touchstart', () => {
+        if (pressButtonRT == false) {
+            pressButtonRT = true
+        }
+    })
+    rightTop.addEventListener('touchend', () => {
+        if (pressButtonRT) {
+            pressButtonRT = false
+        }
+    })
+
+    rightBottom.addEventListener('touchstart', () => {
+        if (pressButtonRB == false) {
+            pressButtonRB = true
+        }
+    })
+    rightBottom.addEventListener('touchend', () => {
+        if (pressButtonRB) {
+            pressButtonRB = false
+        }
+    })
+}
 
 const controlMobile = () => {
     if (pressButtonLT) {
