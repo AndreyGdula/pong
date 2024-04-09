@@ -167,7 +167,9 @@ const gameover = (clockGame) => {
     updateClock = undefined
     speedBall = 0
     timeRecord.push((clockGame / 1000).toFixed(2))
-    console.log(timeRecord)
+
+    racket[0].y = (canvas.height / 2) - (height / 2)
+    racket[1].y = (canvas.height / 2) - (height / 2)
 
     menu.style.display = "flex"
     canvas.style.filter = "blur(10px)"
