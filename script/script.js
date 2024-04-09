@@ -18,6 +18,10 @@ const timeRecord = []
 
 let loopId, startTime, clockGame, updateClock, speedBall, run
 
+const racketSound = new Audio("../files/racket-sound.mp3")
+const gameoverSound = new Audio("../files/gameover-sound.wav")
+gameoverSound.volume = 0.1
+
 const racket = [
     {x: 0, y: (canvas.height / 2) - (height / 2), color: "white"},
     {x: canvas.width - width, y: (canvas.height / 2) - (height / 2), color: "white"}
@@ -107,14 +111,17 @@ const moveBall = (clockGame) => {
     ball.y += dy
     
     if (ball.x <= 0 + ball.raio || ball.x >= canvas.width - ball.raio * 2) {
+        gameoverSound.play()
         gameover(clockGame)
     }
     if (ball.y <= 0 + ball.raio || ball.y >= canvas.height - ball.raio * 2) {
         dy *= -1
+        racketSound.play()
     }
 
     if (ball.x <= width + ball.raio && ball.y + ball.raio >= racket[0].y && ball.y + ball.raio <= racket[0].y + height || ball.x + ball.raio >= canvas.width - width && ball.y + ball.raio >= racket[1].y && ball.y + ball.raio<= racket[1].y + height) {
         dx *= -1
+        racketSound.play()
     }
 }
 
