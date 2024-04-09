@@ -5,6 +5,10 @@ const gameTime = document.querySelector("span#gameTime")
 const menu = document.querySelector("div.menu")
 const buttonReplay = document.querySelector("button#btn-replay")
 const gameRecord = document.querySelector("span#gameRecord")
+const leftTop = document.querySelector("button#leftTop")
+const rightTop = document.querySelector("button#rightTop")
+const leftBottom = document.querySelector("button#leftBottom")
+const rightBottom = document.querySelector("button#rightBottom")
 
 const width = 30
 const height = canvas.height / 4
@@ -65,18 +69,18 @@ const drawBall = () => {
 }
 
 const moveRacket = () => {
-  if (keysPressed["ArrowUp"]) {
-    racket[1].y -= speedRacket
-  }
-  if (keysPressed["ArrowDown"]) {
-    racket[1].y += speedRacket
-  }
-  if (keysPressed["w"]) {
-    racket[0].y -= speedRacket
-  }
-  if (keysPressed["s"]) {
-    racket[0].y += speedRacket
-  }
+    if (keysPressed["ArrowUp"]) {
+        racket[1].y -= speedRacket
+    }
+    if (keysPressed["ArrowDown"]) {
+        racket[1].y += speedRacket
+    }
+    if (keysPressed["w"]) {
+        racket[0].y -= speedRacket
+    }
+    if (keysPressed["s"]) {
+        racket[0].y += speedRacket
+    }
 }
 
 document.addEventListener("keydown", (event) => {
@@ -187,6 +191,7 @@ const gameLoop = () => {
     wallCollision()
     moveBall(clockGame)
     updateBall(currentTime)
+    controlMobile()
 
     if (run) {
         loopId = setInterval(() => {
@@ -207,6 +212,69 @@ buttonReplay.addEventListener('click', () => {
     startTime = Date.now()
     gameLoop()
 })
+
+let pressButtonLT = false
+let pressButtonLB = false
+let pressButtonRT = false
+let pressButtonRB = false
+leftTop.addEventListener('mousedown', () => {
+    if (pressButtonLT == false) {
+        pressButtonLT = true
+    }
+})
+leftTop.addEventListener('mouseup', () => {
+    if (pressButtonLT) {
+        pressButtonLT = false
+    }
+})
+
+leftBottom.addEventListener('mousedown', () => {
+    if (pressButtonLB == false) {
+        pressButtonLB = true
+    }
+})
+leftBottom.addEventListener('mouseup', () => {
+    if (pressButtonLB) {
+        pressButtonLB = false
+    }
+})
+
+rightTop.addEventListener('mousedown', () => {
+    if (pressButtonRT == false) {
+        pressButtonRT = true
+    }
+})
+rightTop.addEventListener('mouseup', () => {
+    if (pressButtonRT) {
+        pressButtonRT = false
+    }
+})
+
+rightBottom.addEventListener('mousedown', () => {
+    if (pressButtonRB == false) {
+        pressButtonRB = true
+    }
+})
+rightBottom.addEventListener('mouseup', () => {
+    if (pressButtonRB) {
+        pressButtonRB = false
+    }
+})
+
+const controlMobile = () => {
+    if (pressButtonLT) {
+        racket[0].y -= speedRacket
+    }
+    if (pressButtonLB) {
+        racket[0].y += speedRacket
+    }
+    if (pressButtonRT) {
+        racket[1].y -= speedRacket
+    }
+    if (pressButtonRB) {
+        racket[1].y += speedRacket
+    }
+}
 
 run = true
 gameLoop()
